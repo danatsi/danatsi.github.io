@@ -51,7 +51,7 @@
 <body>
 
 <div class="card">
-  <div class="title">Jewish Holiday Checker</div>
+  <div class="title">מחר זה כמו שבת?</div>
   <div id="result" class="result">Checking...</div>
   <div id="nextHoliday" class="next-holiday"></div>
 </div>
@@ -112,7 +112,7 @@ async function checkHoliday() {
     if (futureHoliday) {
       const nextHolidayDate = new Date(futureHoliday.date);
       const daysUntilNextHoliday = Math.ceil((nextHolidayDate - today) / (1000 * 3600 * 24)); 
-      nextHolidayEl.innerHTML = `Next major holiday like Shabbat: <br><strong>${futureHoliday.title} is in ${daysUntilNextHoliday} days</strong>`;
+      nextHolidayEl.innerHTML = `Next holiday like Shabbat: <br><strong>${futureHoliday.title} is in ${daysUntilNextHoliday} days</strong>`;
     } else {
       nextHolidayEl.textContent = "No upcoming major holidays.";
     }
