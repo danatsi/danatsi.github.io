@@ -28,4 +28,59 @@
     .title {
       font-size: 28px;
       font-weight: bold;
-      margin-bottom: 30px
+      margin-bottom: 30px;
+    }
+    .result {
+      font-size: 70px;
+      font-weight: 900;
+      margin-bottom: 30px;
+    }
+    .yes {
+      color: #39FF14;
+    }
+    .no {
+      color: #FF073A;
+    }
+    .next-holiday {
+      font-size: 16px;
+      color: #555;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="title">Jewish Holiday Checker</div>
+  <div id="result" class="result">Checking...</div>
+  <div id="nextHoliday" class="next-holiday"></div>
+</div>
+
+<script>
+async function checkHoliday() {
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+
+  const year = tomorrow.getFullYear();
+  const month = tomorrow.getMonth() + 1;
+  const proxyUrl = "https://api.allorigins.win/get?url=";
+  const apiUrl = `https://www.hebcal.com/hebcal?v=1&cfg=json&maj=on&mod=on&year=${year}&month=${month}&c=on&geo=none&m=50&s=on`;
+
+  try {
+    const response = await fetch(proxyUrl + encodeURIComponent(apiUrl));
+    const data = await response.json();
+
+    if (data.status !== "ok") {
+      throw new Error("API request failed or no holidays found.");
+    }
+
+    const holidays = JSON.parse(data.contents).items;
+    console.log("Holidays fetched:", holidays); // Debugging log
+
+    const shabbatLikeHolidays = [
+      "Rosh Hashana",
+      "Yom Kippur",
+      "Sukkot",
+      "Shemini Atzeret",
+      "Simchat
