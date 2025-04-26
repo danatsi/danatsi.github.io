@@ -65,7 +65,7 @@ async function checkHoliday() {
   const year = tomorrow.getFullYear();
   const month = tomorrow.getMonth() + 1; // Month is 0-indexed, so +1 for correct format
   const proxyUrl = "https://api.allorigins.win/get?url=";
-  const apiUrl = `https://www.hebcal.com/hebcal?v=1&cfg=json&maj=on&mod=on&year=${year}&month=${month}&c=on&geo=none&m=50&s=on`;
+  const apiUrl = `https://www.hebcal.com/hebcal?v=1&cfg=json&maj=on&mod=on&year=${year}&geo=none&m=50&s=on`;
 
   try {
     const response = await fetch(proxyUrl + encodeURIComponent(apiUrl));
