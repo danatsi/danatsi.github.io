@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -94,4 +93,49 @@ async function checkHoliday() {
       const itemDate = new Date(item.date);
       console.log(`Checking tomorrow: ${itemDate} against ${tomorrow}`);
       return (
-        itemDate.getFullYear() === tomorrow
+        itemDate.getFullYear() === tomorrow.getFullYear() &&
+        itemDate.getMonth() === tomorrow.getMonth() &&
+        itemDate.getDate() === tomorrow.getDate() &&
+        shabbatLikeHolidays.some(name => item.title.includes(name))
+      );
+    });
+
+    // Find the next "Shabbat-like" holiday after today
+    const futureHoliday = holidays.filter(item => {
+      const itemDate = new Date(item.date);
+      console.log(`Checking future holiday: ${itemDate} against ${today}`);
+      return (
+        itemDate > today &&
+        shabbatLikeHolidays.some(name => item.title.includes(name))
+      );
+    }).sort((a, b) => new Date(a.date) - new Date(b.date))[0];  // Sort to get the earliest future holiday
+
+    const resultEl = document.getElementById("result");
+    const nextHolidayEl = document.getElementById("nextHoliday");
+
+    // Display YES/NO based on tomorrow's holiday
+    if (isHolidayTomorrow) {
+      resultEl.textContent = "YES";
+      resultEl.classList.add("yes");
+    } else {
+      resultEl.textContent = "NO";
+      resultEl.classList.add("no");
+    }
+
+    // Display the next major holiday like Shabbat
+    if (futureHoliday) {
+      nextHolidayEl.innerHTML = `Next major holiday (like Shabbat): <br><strong>${futureHoliday.date} - ${futureHoliday.title}</strong>`;
+    } else {
+      nextHolidayEl.textContent = "No upcoming major holidays like Shabbat.";
+    }
+  } catch (error) {
+    console.error("Error fetching data", error);
+    document.getElementById("result").textContent = "Error: " + error.message;
+  }
+}
+
+checkHoliday();
+</script>
+
+</body>
+</html>
