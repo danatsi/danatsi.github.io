@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,7 +64,7 @@ async function checkHoliday() {
   tomorrow.setDate(today.getDate() + 1);
 
   const year = tomorrow.getFullYear();
-  const month = tomorrow.getMonth() + 1;
+  const month = tomorrow.getMonth() + 1; // Month is 0-indexed, so +1 for correct format
   const proxyUrl = "https://api.allorigins.win/get?url=";
   const apiUrl = `https://www.hebcal.com/hebcal?v=1&cfg=json&maj=on&mod=on&year=${year}&month=${month}&c=on&geo=none&m=50&s=on`;
 
@@ -83,4 +84,14 @@ async function checkHoliday() {
       "Yom Kippur",
       "Sukkot",
       "Shemini Atzeret",
-      "Simchat
+      "Simchat Torah",
+      "Pesach",
+      "Shavuot"
+    ];
+
+    // Check if tomorrow is a "Shabbat-like" holiday
+    const isHolidayTomorrow = holidays.some(item => {
+      const itemDate = new Date(item.date);
+      console.log(`Checking tomorrow: ${itemDate} against ${tomorrow}`);
+      return (
+        itemDate.getFullYear() === tomorrow
