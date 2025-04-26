@@ -88,13 +88,14 @@ async function checkHoliday() {
         itemDate.getFullYear() === tomorrow.getFullYear() &&
         itemDate.getMonth() === tomorrow.getMonth() &&
         itemDate.getDate() === tomorrow.getDate() &&
-        shabbatLikeHolidays.some(name => item.title.includes(name))
+        shabbatLikeHolidays.some(name => item.title.includes(name)) &&
+        !item.title.includes("Erev") 
       );
     });
 
     const futureHoliday = holidays.find(item => 
       new Date(item.date) > today && 
-      shabbatLikeHolidays.some(name => item.title.includes(name))
+      shabbatLikeHolidays.some(name => item.title.includes(name)) &&  !item.title.includes("Erev") 
     );
 
     const resultEl = document.getElementById("result");
@@ -109,7 +110,9 @@ async function checkHoliday() {
     }
 
     if (futureHoliday) {
-      nextHolidayEl.innerHTML = `Next major holiday: <br><strong>${futureHoliday.date} - ${futureHoliday.title}</strong>`;
+      const nextHolidayDate = new Date(futureHoliday.date);
+      const daysUntilNextHoliday = Math.ceil((nextHolidayDate - today) / (1000 * 3600 * 24)); 
+      nextHolidayEl.innerHTML = `Next major holiday like Shabbat: <br><strong>${futureHoliday.title} is in ${daysUntilNextHoliday} days</strong>`;
     } else {
       nextHolidayEl.textContent = "No upcoming major holidays.";
     }
